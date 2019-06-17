@@ -9,7 +9,7 @@ Maze::Maze(QWidget *parent) : QGLWidget(parent)
     m_xPos=0.0f;
     m_yRot=0.0f;
     m_zPos=0.0f;
-
+    m_Fog = 0;
     m_FileName="E:/image/maze.jpg";
     m_BlackName="E:/image/blackmaze.jpg";
     QTimer *timer=new QTimer(this);
@@ -26,6 +26,7 @@ void Maze::setMaze(int (*myMaze)[55][55],int (*value)[55][55],int c,int m[],int 
             for(int row=1;row<=n[k];row++){
                 this->myMaze[k][col][row]=myMaze[k][col][row];
                 this->value[k][col][row]=value[k][col][row];
+                qDebug()<<this->myMaze[k][col][row]<<"+"<< this->value[k][col][row];
             }
         }
     }
@@ -46,6 +47,23 @@ void Maze::initializeGL(){
     glEnable(GL_DEPTH_TEST);                            //启用深度测试
     glDepthFunc(GL_LEQUAL);                             //所作深度测试的类型
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);  //告诉系统对透视进行修正
+
+    GLfloat LightAmbient[] = {0.5f, 0.5f, 0.5f, 1.0f};  //环境光参数
+    GLfloat LightDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};  //漫散光参数
+    GLfloat LightPosition[] = {0.0f, 0.0f, 2.0f, 1.0f}; //光源位置
+    glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);     //设置环境光
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);     //设置漫射光
+    glLightfv(GL_LIGHT1, GL_POSITION, LightPosition);   //设置光源位置
+    glEnable(GL_LIGHT1);                                //启动一号光源
+
+    GLfloat fogColor[] = {0.5f, 0.5f, 0.5f, 1.0f};      //雾的颜色
+    glFogi(GL_FOG_MODE, GL_EXP);                        //设置雾气的初始模式
+    glFogfv(GL_FOG_COLOR, fogColor);                    //设置雾的颜色
+    glFogf(GL_FOG_DENSITY, 0.05);                       //设置雾的密度
+    glHint(GL_FOG_HINT, GL_DONT_CARE);                  //设置系统如何计算雾气
+    glFogf(GL_FOG_START, 1.0f);                         //雾的开始位置
+    glFogf(GL_FOG_END, 5.0f);                           //雾的结束位置
+    glEnable(GL_FOG);                                   //启动雾效果
 
 }
 
@@ -129,18 +147,11 @@ void Maze::buildLists(){
 }
 void Maze::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //清除屏幕和深度缓存
-    glLoadIdentity();                                   //重置当前的模型观察矩
     Map();
 }
 void Maze::Map(){
-    glBindTexture(GL_TEXTURE_2D,m_Black);
-    glBegin(GL_QUADS);
-    glVertex3f(-1000.0f, -1000.0f, -100.0f);
-    glVertex3f(-1000.0f, 1000.0f, -100.0f);
-    glVertex3f(1000.0f, -100.0f, -100.0f);
-    glVertex3f(1000.0f, 1000.0f, -100.0f);
-    glEnd();
     glBindTexture(GL_TEXTURE_2D, m_Texture);            //选择纹理
+    qDebug()<<"cout="<<count<<"c="<<c;
     for (int y=-10;y<10;y++) {
 
         for (int z=-10; z<10; z++)                             //循环来控制画盒子
@@ -153,8 +164,9 @@ void Maze::Map(){
                 if(z==9&&x>-3&&x<3&&y<9&&y>1)
                     continue;
                 if(y==7&&x<9&&x>-9&&z<9&&z>-9){
-                    if(myMaze[count][x][z]!=0&&count!=0){
-                        qDebug()<<myMaze[count][x][z];
+
+                    if(x>0&&z>0&&myMaze[count][x][z]>0){
+                        qDebug()<<"myMaze="<<myMaze[count][x][z];
                         glBindTexture(GL_TEXTURE_2D, m_Black);
                         glLoadIdentity();//设置盒子的位置
                         glTranslatef(0.0f+(float(x)*2.0f+m_xPos),
@@ -251,5 +263,10 @@ void Maze::setFull(bool full){
         }
     }
     updateGL();
+}
+void Maze::setC(int c, int count){
+    this->c=c;
+    this->count=count;
+    qDebug()<<"c="<<c<<"count="<<count;
 }
 

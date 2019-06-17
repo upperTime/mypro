@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include<QMovie>
 #include<QDebug>
-#include"maze.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -12,16 +12,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->logo->setMovie(movie);
     movie->start();
     connect(ui->begin,SIGNAL(clicked()),this,SLOT(initMaze()));
+    //connect(ui->mazegroup,SIGNAL(on_mazegroup_currentIndexChanged()),)
 }
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-
 void MainWindow::on_mazegroup_currentIndexChanged(int index)
 {
     c=index+1;
+    ui->mazewidget->setC(c,0);
     qDebug()<<c;
 }
 void MainWindow::init_string(){

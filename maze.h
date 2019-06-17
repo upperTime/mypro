@@ -1,9 +1,10 @@
 #ifndef MAZE_H
 #define MAZE_H
 
+#pragma once
 #include<QWidget>
 #include<QGLWidget>
-#pragma once
+
 #include<gl/GL.h>
 #include<gl/GLU.h>
 #include<iostream>
@@ -42,7 +43,7 @@ private:
     GLuint m_Texture;           //存储纹理
     QString m_BlackName;        //背景路径
     GLuint m_Black;               //背景
-
+    GLuint m_Fog;                                   //雾的模式
     GLuint m_Box;               //保存盒子的显示列表
 
     constexpr static const float m_PIOVER180 = 0.0174532925f; //实现度和弧度直接的折算
@@ -57,6 +58,7 @@ public:
     void setY(double y);
     void setZ(double z);
     void setFull(bool full);              //是否全屏
+    void setC(int c,int count);                       //总数
 };
 
 #endif // MAZE_H

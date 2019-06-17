@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include<QKeyEvent>
-#include"maze.h"
+
 namespace Ui {
 class MainWindow;
 }
