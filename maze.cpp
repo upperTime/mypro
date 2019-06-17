@@ -4,7 +4,7 @@
 #include<QDebug>
 Maze::Maze(QWidget *parent) : QGLWidget(parent)
 {
-    fullscreen=false;
+    nextMaze=false;
 
     m_xPos=0.0f;
     m_yRot=0.0f;
@@ -12,6 +12,7 @@ Maze::Maze(QWidget *parent) : QGLWidget(parent)
     m_Fog = 0;
     m_FileName="E:/image/maze.jpg";
     m_BlackName="E:/image/blackmaze.jpg";
+    m_runName="E:/image/apple.png";
     QTimer *timer=new QTimer(this);
     connect(timer,SIGNAL(timerout()),this,SLOT(upadteGl()));
     timer->start(10);
@@ -30,6 +31,10 @@ void Maze::setMaze(int (*myMaze)[55][55],int (*value)[55][55],int c,int m[],int 
             }
         }
     }
+    for(int i=0;i<c;i++){
+        this->m[i]=m[i];
+        this->n[i]=n[i];
+    }
 }
 
 
@@ -37,6 +42,7 @@ void Maze::initializeGL(){
 
     m_Texture = bindTexture(QPixmap(m_FileName));       //载入位图并转换成纹理
     m_Black=bindTexture(QPixmap(m_BlackName));          //背景纹理
+    m_run=bindTexture(QPixmap(m_runName));                //路径
     glEnable(GL_TEXTURE_2D);                            //启用纹理映射
     buildLists();                                       //创建显示列表
 
@@ -147,6 +153,7 @@ void Maze::buildLists(){
 }
 void Maze::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //清除屏幕和深度缓存
+    glPushMatrix();                                     //记录当前位置
     Map();
 }
 void Maze::Map(){
@@ -166,12 +173,21 @@ void Maze::Map(){
                 if(y==7&&x<9&&x>-9&&z<9&&z>-9){
 
                     if(x>0&&z>0&&myMaze[count][x][z]>0){
-                        qDebug()<<"myMaze="<<myMaze[count][x][z];
-                        glBindTexture(GL_TEXTURE_2D, m_Black);
-                        glLoadIdentity();//设置盒子的位置
-                        glTranslatef(0.0f+(float(x)*2.0f+m_xPos),
-                                     -1.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*2.0f+m_zPos);
-                        glCallList(m_Box);
+                        if(run&&(value[count][x][z]>0||x==1&&z==1)){
+                            //qDebug()<<"myMaze="<<value[count][x][z];
+                            glBindTexture(GL_TEXTURE_2D, m_run);
+                            glLoadIdentity();//设置盒子的位置
+                            glTranslatef(0.0f+(float(x)*2.0f+m_xPos),
+                                         -1.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*2.0f+m_zPos);
+                            glCallList(m_Box);
+                        }else{
+                            qDebug()<<"myMaze="<<myMaze[count][x][z];
+                            glBindTexture(GL_TEXTURE_2D, m_Black);
+                            glLoadIdentity();//设置盒子的位置
+                            glTranslatef(0.0f+(float(x)*2.0f+m_xPos),
+                                         -1.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*2.0f+m_zPos);
+                            glCallList(m_Box);
+                        }
                     }
                 }else{
                     glBindTexture(GL_TEXTURE_2D, m_Texture);
@@ -186,15 +202,19 @@ void Maze::Map(){
     }
 
 }
-
+void Maze::runMaze(){
+    this->run=true;
+    qDebug()<<"run";
+    updateGL();
+}
 void Maze::keyPressEvent(QKeyEvent *event){
     switch (event->key())
     {
     case Qt::Key_F1:                                    //F1为全屏和普通屏的切换键
-        fullscreen = !fullscreen;
-        if (fullscreen)
+        nextMaze = !nextMaze;
+        if (nextMaze)
         {
-            showFullScreen();
+            //showFullScreen();
         }
         else
         {
@@ -254,14 +274,20 @@ void Maze::setZ(double z){
     updateGL();
     qDebug()<<z;
 }
-void Maze::setFull(bool full){
-    qDebug()<<full;
-    if(full){
+void Maze::setnext(bool next){
+    qDebug()<<next;
+    if(next){
         count++;
         if(count>=c){
             count=c;
         }
+    }else{
+        count--;
+        if(count<=0){
+            count=0;
+        }
     }
+    run=false;
     updateGL();
 }
 void Maze::setC(int c, int count){
@@ -269,4 +295,5 @@ void Maze::setC(int c, int count){
     this->count=count;
     qDebug()<<"c="<<c<<"count="<<count;
 }
+
 

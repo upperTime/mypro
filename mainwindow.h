@@ -42,9 +42,15 @@ private slots:
 
 
 
-    void on_fullScreen_clicked();
+    void on_nextMaze_clicked();
 
     void keyPressEvent(QKeyEvent *event);
+
+
+    void on_beforeMaze_clicked();
+
+    void on_runMaze_clicked();
+
 private:
     Ui::MainWindow *ui;
     int c;              //数据组数

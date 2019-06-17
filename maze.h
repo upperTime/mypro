@@ -38,11 +38,14 @@ private:
     int m[5];
     int n[5];
     int count=0;                  //计数器
-    bool fullscreen;           //是否全屏显示
+    bool nextMaze;           //是否全屏显示
+    bool run=false;                   //是否走迷宫
     QString m_FileName;         //图片路径
     GLuint m_Texture;           //存储纹理
     QString m_BlackName;        //背景路径
     GLuint m_Black;               //背景
+    QString m_runName;              //路径
+    GLuint m_run;                       //路径
     GLuint m_Fog;                                   //雾的模式
     GLuint m_Box;               //保存盒子的显示列表
 
@@ -57,8 +60,9 @@ public:
     void setX(double x);                    //控制移动
     void setY(double y);
     void setZ(double z);
-    void setFull(bool full);              //是否全屏
+    void setnext(bool full);              //是否全屏
     void setC(int c,int count);                       //总数
+    void runMaze();                             //走迷宫
 };
 
 #endif // MAZE_H

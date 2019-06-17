@@ -160,15 +160,15 @@ void MainWindow::on_pgdn_clicked()
 
 
 
-void MainWindow::on_fullScreen_clicked()
+void MainWindow::on_nextMaze_clicked()
 {
-    ui->mazewidget->setFull(true);
+    ui->mazewidget->setnext(true);
 }
 void MainWindow::keyPressEvent(QKeyEvent *event){
     switch (event->key())
     {
     case Qt::Key_F1:                                    //F1为全屏和普通屏的切换键
-        on_fullScreen_clicked();
+        on_nextMaze_clicked();
         break;
     case Qt::Key_Escape:                                //ESC为退出键
         close();
@@ -195,4 +195,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         break;
     }
     ui->mazewidget->updateGL();
+}
+
+
+
+void MainWindow::on_beforeMaze_clicked()
+{
+    ui->mazewidget->setnext(false);
+}
+
+void MainWindow::on_runMaze_clicked()
+{
+   ui->mazewidget->runMaze();
 }
