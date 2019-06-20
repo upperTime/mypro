@@ -27,7 +27,7 @@ protected:
     // void inputKey(int key, int x, int y);//键盘响应事件
     void orientMe(float ang);
     void moveMeFlat(int direction);
-    void keyPressEvent(QKeyEvent *event);//键盘响应事件
+    //void keyPressEvent(QKeyEvent *event);//键盘响应事件
 private:
     void Map();                 //初始化场景
     void buildLists();          //初始化显示列

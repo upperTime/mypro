@@ -153,7 +153,6 @@ void Maze::buildLists(){
 }
 void Maze::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //清除屏幕和深度缓存
-    glPushMatrix();                                     //记录当前位置
     Map();
 }
 void Maze::Map(){
@@ -173,12 +172,12 @@ void Maze::Map(){
                 if(y==7&&x<9&&x>-9&&z<9&&z>-9){
 
                     if(x>0&&z>0&&myMaze[count][x][z]>0){
-                        if(run&&(value[count][x][z]>0||x==1&&z==1)){
-                            //qDebug()<<"myMaze="<<value[count][x][z];
+                        if(run&&(value[count][x][z]>0||(x==1&&z==1))){
+                            qDebug()<<"myvalue="<<value[count][x][z];
                             glBindTexture(GL_TEXTURE_2D, m_run);
                             glLoadIdentity();//设置盒子的位置
                             glTranslatef(0.0f+(float(x)*2.0f+m_xPos),
-                                         -1.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*2.0f+m_zPos);
+                                         -8.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*2.0f+m_zPos);
                             glCallList(m_Box);
                         }else{
                             qDebug()<<"myMaze="<<myMaze[count][x][z];
@@ -207,7 +206,7 @@ void Maze::runMaze(){
     qDebug()<<"run";
     updateGL();
 }
-void Maze::keyPressEvent(QKeyEvent *event){
+/*void Maze::keyPressEvent(QKeyEvent *event){
     switch (event->key())
     {
     case Qt::Key_F1:                                    //F1为全屏和普通屏的切换键
@@ -256,7 +255,7 @@ void Maze::keyPressEvent(QKeyEvent *event){
         break;
     }
     updateGL();
-}
+}*/
 
 
 void Maze::setX(double x){

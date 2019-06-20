@@ -62,14 +62,13 @@ void MainWindow::find_ans(int k,int total, int row, int col) {
                 if (i != j&&l >= i&&l >= j) {
                     dp[l][i][j] = max(max(dp[l - 1][i - 1][j], dp[l - 1][i][j - 1]), max(dp[l - 1][i - 1][j - 1], dp[l - 1][i][j])) + maze[k][i][l - i] + maze[k][j][l - j];
                 }
-                //  qDebug() << dp[l][i][j] << "\t";
+                  qDebug() << dp[l][i][j] << "\t";
             }
-            // qDebug() << endl;
+             qDebug() << endl;
         }
-        // qDebug() << endl;
+         qDebug() << endl;
     }
     dp[total][row][col] = max(dp[total - 1][row][row - 1], dp[total - 1][row - 1][row]) + maze[k][row][col];
-    //printf_s("%d\n", dp[total][row][col]);
 }
 void MainWindow::find_route(int k, int total, int row, int col) {
     int max[3][1];
@@ -173,24 +172,24 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     case Qt::Key_Escape:                                //ESC为退出键
         close();
         break;
-    case Qt::Key_Up:
+    case Qt::Key_W:
         on_up_clicked();
         //m_zPos+=0.1f;
         break;
-    case Qt::Key_Down:
+    case Qt::Key_S:
         on_down_clicked();
         //m_zPos-=1.0f;
         break;
-    case Qt::Key_PageUp:                                //按下PageUp视角向上转
+    case Qt::Key_Q:                                //按下PageUp视角向上转
         on_pgup_clicked();
         break;
-    case Qt::Key_PageDown:                              //按下PageDown视角向下转
-        on_pgup_clicked();
+    case Qt::Key_E:                              //按下PageDown视角向下转
+        on_pgdn_clicked();
         break;
-    case Qt::Key_Right:                                 //Right按下向左旋转场景
+    case Qt::Key_D:                                 //Right按下向左旋转场景
         on_right_clicked();
         break;
-    case Qt::Key_Left:                                  //Left按下向右旋转场景
+    case Qt::Key_A:                                  //Left按下向右旋转场景
         on_left_clicked();
         break;
     }
