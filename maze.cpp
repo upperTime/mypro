@@ -176,15 +176,15 @@ void Maze::Map(){
                             qDebug()<<"myvalue="<<value[count][x][z];
                             glBindTexture(GL_TEXTURE_2D, m_run);
                             glLoadIdentity();//设置盒子的位置
-                            glTranslatef(0.0f+(float(x)*2.0f+m_xPos),
-                                         -8.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*2.0f+m_zPos);
+                            glTranslatef(0.0f+(float(x)*4.0f+m_xPos),
+                                         10.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*4.0f+m_zPos);
                             glCallList(m_Box);
                         }else{
                             qDebug()<<"myMaze="<<myMaze[count][x][z];
                             glBindTexture(GL_TEXTURE_2D, m_Black);
                             glLoadIdentity();//设置盒子的位置
-                            glTranslatef(0.0f+(float(x)*2.0f+m_xPos),
-                                         -1.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*2.0f+m_zPos);
+                            glTranslatef(0.0f+(float(x)*4.0f+m_xPos),
+                                         10.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*4.0f+m_zPos);
                             glCallList(m_Box);
                         }
                     }
@@ -192,7 +192,7 @@ void Maze::Map(){
                     glBindTexture(GL_TEXTURE_2D, m_Texture);
                     glLoadIdentity();//设置盒子的位置
                     glTranslatef(0.0f+(float(x)*2.0f+m_xPos),
-                                 -1.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*2.0f+m_zPos);
+                                 10.0f-float(y)*2.0f+m_yRot, -40.0f+float(z)*2.0f+m_zPos);
                     glCallList(m_Box);    //绘制盒子
                 }
 
@@ -206,58 +206,6 @@ void Maze::runMaze(){
     qDebug()<<"run";
     updateGL();
 }
-/*void Maze::keyPressEvent(QKeyEvent *event){
-    switch (event->key())
-    {
-    case Qt::Key_F1:                                    //F1为全屏和普通屏的切换键
-        nextMaze = !nextMaze;
-        if (nextMaze)
-        {
-            //showFullScreen();
-        }
-        else
-        {
-            showNormal();
-        }
-        break;
-    case Qt::Key_Escape:                                //ESC为退出键
-        close();
-        break;
-    case Qt::Key_Up:
-        m_xPos -= (float)sin(m_yRot * m_PIOVER180) * 1.05f;
-        m_zPos -= (float)cos(m_yRot * m_PIOVER180) * 1.05f;
-        //m_zPos+=0.1f;
-        break;
-    case Qt::Key_Down:
-        m_xPos += (float)sin(m_yRot * m_PIOVER180) * 1.05f;
-        m_zPos += (float)cos(m_yRot * m_PIOVER180) * 1.05f;
-        //m_zPos-=1.0f;
-        break;
-    case Qt::Key_PageUp:                                //按下PageUp视角向上转
-        m_LookUpDown -= 1.0f;
-        if (m_LookUpDown < -90.0f)
-        {
-            m_LookUpDown = -90.0f;
-        }
-        break;
-    case Qt::Key_PageDown:                              //按下PageDown视角向下转
-        m_LookUpDown += 1.0f;
-        if (m_LookUpDown > 90.0f)
-        {
-            m_LookUpDown = 90.0f;
-        }
-        break;
-    case Qt::Key_Right:                                 //Right按下向左旋转场景
-        m_yRot -= 1.0f;
-        break;
-    case Qt::Key_Left:                                  //Left按下向右旋转场景
-        m_yRot += 1.0f;
-        break;
-    }
-    updateGL();
-}*/
-
-
 void Maze::setX(double x){
     m_xPos+=x;
     updateGL();
@@ -294,5 +242,3 @@ void Maze::setC(int c, int count){
     this->count=count;
     qDebug()<<"c="<<c<<"count="<<count;
 }
-
-

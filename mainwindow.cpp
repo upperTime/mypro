@@ -169,6 +169,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     case Qt::Key_F1:                                    //F1为全屏和普通屏的切换键
         on_nextMaze_clicked();
         break;
+    case Qt::Key_F2:
+        on_beforeMaze_clicked();
+        break;
+    case Qt::Key_F5:
+        on_runMaze_clicked();
+        break;
     case Qt::Key_Escape:                                //ESC为退出键
         close();
         break;
