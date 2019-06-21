@@ -17,9 +17,9 @@
    <widget class="Maze" name="mazewidget" native="true">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>340</x>
       <y>0</y>
-      <width>1011</width>
+      <width>991</width>
       <height>671</height>
      </rect>
     </property>
@@ -58,13 +58,13 @@
      <string>探寻宝藏</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>39</y>
-      <width>266</width>
-      <height>493</height>
+      <width>309</width>
+      <height>489</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -329,6 +329,10 @@
      </item>
     </layout>
    </widget>
+   <zorder>logo</zorder>
+   <zorder>label_3</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>mazewidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

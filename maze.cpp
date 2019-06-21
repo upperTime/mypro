@@ -12,7 +12,8 @@ Maze::Maze(QWidget *parent) : QGLWidget(parent)
     m_Fog = 0;
     m_FileName="E:/image/maze.jpg";
     m_BlackName="E:/image/blackmaze.jpg";
-    m_runName="E:/image/apple.png";
+    m_run1Name="E:/image/apple.png";
+    m_run2Name="E:/image/banana.png";
     QTimer *timer=new QTimer(this);
     connect(timer,SIGNAL(timerout()),this,SLOT(upadteGl()));
     timer->start(10);
@@ -42,7 +43,8 @@ void Maze::initializeGL(){
 
     m_Texture = bindTexture(QPixmap(m_FileName));       //载入位图并转换成纹理
     m_Black=bindTexture(QPixmap(m_BlackName));          //背景纹理
-    m_run=bindTexture(QPixmap(m_runName));                //路径
+    m_run1=bindTexture(QPixmap(m_run1Name));                //路径
+    m_run2=bindTexture(QPixmap(m_run2Name));
     glEnable(GL_TEXTURE_2D);                            //启用纹理映射
     buildLists();                                       //创建显示列表
 
@@ -173,12 +175,21 @@ void Maze::Map(){
 
                     if(x>0&&z>0&&myMaze[count][x][z]>0){
                         if(run&&(value[count][x][z]>0||(x==1&&z==1))){
-                            qDebug()<<"myvalue="<<value[count][x][z];
-                            glBindTexture(GL_TEXTURE_2D, m_run);
-                            glLoadIdentity();//设置盒子的位置
-                            glTranslatef(0.0f+(float(x)*4.0f+m_xPos),
-                                         10.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*4.0f+m_zPos);
-                            glCallList(m_Box);
+                            if(value[count][x][z]!=2){
+                                qDebug()<<"run1="<<value[count][x][z];
+                                glBindTexture(GL_TEXTURE_2D, m_run1);
+                                glLoadIdentity();//设置盒子的位置
+                                glTranslatef(0.0f+(float(x)*4.0f+m_xPos),
+                                             10.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*4.0f+m_zPos);
+                                glCallList(m_Box);
+                            }else{
+                                qDebug()<<"run2="<<value[count][x][z];
+                                glBindTexture(GL_TEXTURE_2D, m_run2);
+                                glLoadIdentity();//设置盒子的位置
+                                glTranslatef(0.0f+(float(x)*4.0f+m_xPos),
+                                             10.0f-float(y)*2.0f+m_yRot, -50.0f+float(z)*4.0f+m_zPos);
+                                glCallList(m_Box);
+                            }
                         }else{
                             qDebug()<<"myMaze="<<myMaze[count][x][z];
                             glBindTexture(GL_TEXTURE_2D, m_Black);
@@ -225,8 +236,8 @@ void Maze::setnext(bool next){
     qDebug()<<next;
     if(next){
         count++;
-        if(count>=c){
-            count=c;
+        if(count>=c-1){
+            count=c-1;
         }
     }else{
         count--;
@@ -241,4 +252,8 @@ void Maze::setC(int c, int count){
     this->c=c;
     this->count=count;
     qDebug()<<"c="<<c<<"count="<<count;
+}
+void Maze::full(){
+
+    resizeGL(1366,768);
 }

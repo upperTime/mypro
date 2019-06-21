@@ -44,8 +44,10 @@ private:
     GLuint m_Texture;           //存储纹理
     QString m_BlackName;        //背景路径
     GLuint m_Black;               //背景
-    QString m_runName;              //路径
-    GLuint m_run;                       //路径
+    QString m_run1Name;              //路径
+    GLuint m_run1;                       //路径
+    QString m_run2Name;
+    GLint m_run2;
     GLuint m_Fog;                                   //雾的模式
     GLuint m_Box;               //保存盒子的显示列表
 
@@ -63,6 +65,7 @@ public:
     void setnext(bool full);              //是否全屏
     void setC(int c,int count);                       //总数
     void runMaze();                             //走迷宫
+    void full();
 };
 
 #endif // MAZE_H

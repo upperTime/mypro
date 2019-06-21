@@ -198,6 +198,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     case Qt::Key_A:                                  //Left按下向右旋转场景
         on_left_clicked();
         break;
+    case Qt::Key_Enter:
+        on_pushButton_clicked();
+        break;
     }
     ui->mazewidget->updateGL();
 }
@@ -212,4 +215,10 @@ void MainWindow::on_beforeMaze_clicked()
 void MainWindow::on_runMaze_clicked()
 {
    ui->mazewidget->runMaze();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->mazewidget->resize(1366,768);
+    ui->mazewidget->full();
 }

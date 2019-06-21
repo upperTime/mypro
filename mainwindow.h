@@ -51,6 +51,8 @@ private slots:
 
     void on_runMaze_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     int c;              //数据组数
